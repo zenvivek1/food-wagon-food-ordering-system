@@ -8,24 +8,10 @@ import {
   XCircle,
   Truck,
 } from "lucide-react";
-import api from "../../api/AxiosApi";
+import FoodLoader from "../Loader/FoodLoader";
+import { cancelOrderById, getOrders } from "../../api/services/orders/ordersApi";
+import type { Order } from "../../Interfaces/Orders";
 
-interface OrderItem {
-  product_name: string;
-  quantity: number;
-  price_at_time: number;
-  product_image?: string;
-}
-
-interface Order {
-  id: number;
-  status: string;
-  payment_status: string;
-  total_amount: number;
-  created_at: string;
-  uber_tracking_url?: string;
-  items: OrderItem[];
-}
 
 const ViewOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -35,10 +21,11 @@ const ViewOrders = () => {
     fetchOrders();
   }, []);
 
+
   const fetchOrders = async () => {
     try {
-      const res = await api.get("/orders/");
-      setOrders(res.data.data || []);
+      const data = await getOrders();
+      setOrders(data);
     } catch {
       toast.error("Failed to load orders");
     } finally {
@@ -46,9 +33,9 @@ const ViewOrders = () => {
     }
   };
 
-  const cancelOrder = async (orderId: number) => {
+  const handleCancelOrder = async (orderId: number) => {
     try {
-      await api.post(`/orders/${orderId}/cancel`);
+      await cancelOrderById(orderId);
       toast.success("Order cancelled");
       fetchOrders();
     } catch {
@@ -57,7 +44,7 @@ const ViewOrders = () => {
   };
 
   const getStatusBadge = (status: string) => {
-    if (status === "completed")
+    if (status === "confirmed")
       return "bg-green-100 text-green-700";
     if (status === "cancelled")
       return "bg-red-100 text-red-600";
@@ -66,9 +53,7 @@ const ViewOrders = () => {
 
   if (loading)
     return (
-      <p className="text-center mt-32 text-lg font-medium">
-        Loading orders...
-      </p>
+    <FoodLoader height="screen"/>
     );
 
   if (!orders.length)
@@ -84,78 +69,97 @@ const ViewOrders = () => {
       </div>
     );
 
-  return (
-    <div className="max-w-6xl mx-auto px-6 py-12">
-      <h1 className="text-4xl font-bold mb-10">
+return (
+  <div className="min-h-screen bg-gradient-to-b from-orange-50/40 via-white to-white py-14 px-6">
+    <div className="max-w-7xl mx-auto">
+
+      {/* HEADER */}
+      <div className="space-y-4 mb-12">
+      <h1 className="text-4xl font-bold text-gray-900">
         My Orders
       </h1>
+      <h2 className="text-xl font-bold text-primary">Total Orders : <span>{orders.length}</span></h2>
+      </div>
 
-      <div className="space-y-8">
+      <div className="space-y-12">
         {orders.map(order => (
           <div
             key={order.id}
-            className="bg-white rounded-3xl shadow-lg p-8"
+            className="bg-white rounded-3xl p-8
+                       shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
           >
-            {/* HEADER */}
-            <div className="flex justify-between items-center mb-6">
+            {/* ORDER HEADER */}
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
               <div>
                 <p className="text-sm text-gray-500">
                   Order ID
                 </p>
-                <p className="font-semibold text-lg">
+                <p className="text-xl font-semibold">
                   #{order.id}
                 </p>
               </div>
 
               <span
-                className={`px-4 py-1 rounded-full text-sm font-semibold ${getStatusBadge(
-                  order.status
-                )}`}
+                className={`px-5 py-1.5 rounded-full text-sm font-semibold
+                  ${getStatusBadge(order.status)}`}
               >
                 {order.status.toUpperCase()}
               </span>
             </div>
 
-            {/* ITEMS */}
-            <div className="space-y-4 mb-6">
+            {/* ITEMS LIST */}
+            <div className="space-y-8">
               {order.items.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex justify-between items-center border-b pb-3"
+                  className="border-b last:border-none "
                 >
-                  <div className="flex items-center gap-4">
-                <img
-  src={item.image_urls?.[0]}
-  alt={item.product_name}
-  className="w-16 h-16 rounded-2xl object-cover shadow-md border"
-/>
-                    <div>
-                      <p className="font-medium">
-                        {item.product_name}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        Qty: {item.quantity}
+                  <div className="flex flex-col sm:flex-row gap-6">
+
+                    {/* IMAGE */}
+                    <img
+                      src={item.image_urls?.[0]}
+                      alt={item.product_name}
+                      className="w-full sm:w-36 h-36 rounded-2xl
+                                 object-cover border shadow-sm"
+                    />
+
+                    {/* INFO */}
+                    <div className="flex-1 flex flex-col justify-around">
+                      <div>
+                        <h3 className="text-xl font-semibold text-gray-900">
+                          {item.product_name}
+                        </h3>
+
+                        <p className="text-gray-500 mt-1">
+                          Quantity:{" "}
+                          <span className="font-medium">
+                            {item.quantity}
+                          </span>
+                        </p>
+                      </div>
+
+                      {/* ITEM TOTAL */}
+                      <p className="text-xl font-bold text-gray-900 mt-4">
+                        ₹{item.price_at_time * item.quantity}
                       </p>
                     </div>
                   </div>
-
-                  <p className="font-semibold">
-                    ₹{item.price_at_time * item.quantity}
-                  </p>
                 </div>
               ))}
             </div>
 
-            {/* FOOTER */}
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="text-gray-600">
-                <p>
-                  Total:{" "}
-                  <span className="font-bold text-gray-900">
-                    ₹{order.total_amount}
-                  </span>
+            {/* ORDER TOTAL */}
+            <div className="border-t pt-6 mt-8 flex flex-col sm:flex-row sm:justify-between gap-4">
+              <div className="text-gray-700">
+                <p className="text-lg">
+                  Total Amount
                 </p>
-                <p className="text-sm">
+                <p className="text-2xl font-bold text-orange-500">
+                  ₹{order.total_amount}
+                </p>
+
+                <p className="text-sm text-gray-500 mt-1">
                   Payment:{" "}
                   <span className="font-medium">
                     {order.payment_status}
@@ -163,22 +167,26 @@ const ViewOrders = () => {
                 </p>
               </div>
 
-              <div className="flex gap-3">
+              {/* ACTIONS */}
+              <div className="flex gap-3 items-start">
                 {order.uber_tracking_url && (
                   <a
                     href={order.uber_tracking_url}
                     target="_blank"
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl border"
+                    className="flex items-center gap-2 px-5 py-3
+                               rounded-2xl border hover:bg-gray-50 transition"
                   >
                     <Truck size={18} />
-                    Track
+                    Track Order
                   </a>
                 )}
 
                 {order.status === "pending" && (
                   <button
-                    onClick={() => cancelOrder(order.id)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl border border-red-500 text-red-500"
+                    onClick={() => handleCancelOrder(order.id)}
+                    className="flex items-center gap-2 px-5 py-3
+                               rounded-2xl border border-red-400
+                               text-red-500 hover:bg-red-50 transition"
                   >
                     <XCircle size={18} />
                     Cancel
@@ -188,7 +196,7 @@ const ViewOrders = () => {
             </div>
 
             {/* TIME */}
-            <div className="flex items-center gap-2 text-sm text-gray-500 mt-4">
+            <div className="flex items-center gap-2 text-sm text-gray-500 mt-6">
               <Clock size={16} />
               {new Date(order.created_at).toLocaleString()}
             </div>
@@ -196,7 +204,9 @@ const ViewOrders = () => {
         ))}
       </div>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default ViewOrders;

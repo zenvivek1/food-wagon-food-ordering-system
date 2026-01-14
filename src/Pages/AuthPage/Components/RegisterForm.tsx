@@ -96,8 +96,8 @@ const RegisterForm = ({ setIsLogin }: any) => {
       <h2 className="text-3xl font-bold text-orange-500">Register</h2>
 
       <form onSubmit={handleSubmit} className="w-full mt-8 space-y-5">
-        <label htmlFor="name" className="font-semibold block text-black">
-          Enter Your Full Name
+        <label htmlFor="name" className="block font-semibold mb-2 text-blac">
+         Full Name<span className="text-red-500 ml-1">*</span> 
         </label>
         <input
           id="name"
@@ -105,12 +105,13 @@ const RegisterForm = ({ setIsLogin }: any) => {
           type="text"
           value={formData.name}
           onChange={handleChange}
-          placeholder="Full Name"
+          required
+          placeholder="Enter Your Full Name"
           className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
         />
 
-        <label htmlFor="email" className="font-semibold block text-black">
-          Enter Your Email
+        <label htmlFor="email" className="block font-semibold mb-2 text-blac">
+          Email<span className="text-red-500 ml-1">*</span>
         </label>
         <input
           id="email"
@@ -118,12 +119,13 @@ const RegisterForm = ({ setIsLogin }: any) => {
           type="email"
           value={formData.email}
           onChange={handleChange}
-          placeholder="Email"
+          required
+          placeholder="Enter Your Email"
           className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
         />
 
-        <label htmlFor="password" className="font-semibold block text-black">
-          Enter Your Password
+        <label htmlFor="password" className="block font-semibold mb-2 text-blac">
+          Password<span className="text-red-500 ml-1">*</span>
         </label>
         <input
           id="password"
@@ -131,15 +133,16 @@ const RegisterForm = ({ setIsLogin }: any) => {
           type="password"
           value={formData.password}
           onChange={handleChange}
-          placeholder="Password"
+          required
+          placeholder="Enter Your Password"
           className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
         />
 
         <label
           htmlFor="confirmPassword"
-          className="font-semibold block text-black"
+          className="block font-semibold mb-2 text-blac"
         >
-          Confirm Your Password
+          Confirm Password<span className="text-red-500 ml-1">*</span>
         </label>
         <input
           id="confirmPassword"
@@ -147,7 +150,8 @@ const RegisterForm = ({ setIsLogin }: any) => {
           type="password"
           value={formData.confirmPassword}
           onChange={handleChange}
-          placeholder="Confirm Password"
+          required
+          placeholder="Confirm Your Password"
           className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
         />
 

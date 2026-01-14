@@ -2,7 +2,7 @@
 
 const SectionC = () => {
   return (
-    <div className="min-h-[80vh]">
+    <div className="min-h-[80vh">
 
       <div className="h-[40vh] overflow-hidden flex flex-col items-center justify-center">
         <img

@@ -3,32 +3,30 @@ import api from "../AxiosApi";
 
 const useFindUser = (hasToken: boolean) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
 
   useEffect(() => {
     if (!hasToken) {
       setUser(null);
-      setLoading(false);
+      setisLoading(false);
       return;
     }
 
     const fetchUser = async () => {
       try {
         const res = await api.get("/users/me");
-        if(res?.data?.data){
-          setUser(res.data.data);
-        }
+        setUser(res?.data?.data ?? null);
       } catch {
         setUser(null);
       } finally {
-        setLoading(false);
+        setisLoading(false);
       }
     };
 
     fetchUser();
   }, [hasToken]);
 
-  return { user, loading, isLoggedIn:!!user };
+  return { user, isLoading, isLoggedIn: !!user };
 };
 
 export default useFindUser;

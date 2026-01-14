@@ -100,13 +100,8 @@ const AdminSidebar = ({ open, setOpen }: any) => {
             icon={<Settings size={18} />}
             label="Settings"
             setOpen={setOpen}
-          />
-          <AdminSidebarLink
-            to="/"
-            icon={<Home size={18} />}
-            label="Home"
-            setOpen={setOpen}
-          />
+          /> 
+          
         </nav>
 
         {/* Logout */}

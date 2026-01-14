@@ -2,10 +2,16 @@ import { useState } from "react";
 import foodImg from "../assets/foof1-removebg-preview.png";
 import { useAuth } from "../Context/AuthContext";
 import ScrollIndicator from "./ScrollNow/ScrollIndicator";
+import { randomFoodEmoji } from "./FoodEmoji/randomFoodEmoji";
+import FoodLoader from "../Pages/Loader/FoodLoader";
 
 const Hero = () => {
   const [DeliveryOption, setDeliveryOption] = useState("Delivery");
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn, user, isAuthReady } = useAuth();
+
+  if(!isAuthReady){
+   return <FoodLoader height="screen" />
+  }
 
   return (
     <div className="min-h-[65vh] bg-primary relative w-full flex justify-center items-center gap-20 flex-wrap py-10 flex-col-reverse text-center px-4 lg:flex-row lg:text-start lg:px-0">
@@ -18,7 +24,7 @@ const Hero = () => {
                 <br />
                 Hungry Already?
                 <br />
-                Let's Fix That🍔
+                Let's Fix That {randomFoodEmoji()}
               </>
             ) : (
               "Are you starving?"
@@ -71,7 +77,8 @@ const Hero = () => {
               <i className="ri-map-pin-2-fill absolute left-3 top-1/2 -translate-y-1/2 text-xl text-orange-500"></i>
             </div>
 
-            <button className="py-4 whitespace-nowrap px-8 bg-secondary rounded-lg text-white font-bold w-full lg:w-auto">
+            <button
+             className="py-4 whitespace-nowrap px-8 bg-secondary rounded-lg text-white font-bold w-full lg:w-auto">
               <i className="ri-search-line mr-2"></i>
               {DeliveryOption === "Pickup" ? "Search" : "Find Food"}
             </button>

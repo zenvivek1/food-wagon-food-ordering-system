@@ -1,3 +1,4 @@
+import Footer from "../../Components/Footer";
 import Products from "../../Components/Products";
 import FoodHero from "./Components/FoodHero";
 import ReviewsSection from "./Components/ReviewsSection";
@@ -8,6 +9,7 @@ const FoodDetails = () => {
     <FoodHero/>
     <ReviewsSection/>
     <Products/>
+    <Footer/>
     </>
   );
 };

@@ -10,6 +10,7 @@ import {
   ReceiptText,
   CreditCard,
 } from "lucide-react";
+import FoodLoader from "../../../Loader/FoodLoader";
 
 declare global {
   interface Window {
@@ -107,14 +108,12 @@ const DummyCheckout = () => {
 
   if (loading)
     return (
-      <p className="text-center mt-32 text-lg font-medium">
-        Loading checkout...
-      </p>
+      <FoodLoader/>
     );
 
   return (
     <div className="bg-gray-50 min-h-screen py-16 px-6">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* HEADER */}
         <h1 className="text-4xl font-bold mb-2">Checkout</h1>
         <p className="text-gray-600 mb-10">
@@ -222,7 +221,7 @@ const DummyCheckout = () => {
             </button>
           </div>
         </div>
-      </div>
+      </div>  
     </div>
   );
 };

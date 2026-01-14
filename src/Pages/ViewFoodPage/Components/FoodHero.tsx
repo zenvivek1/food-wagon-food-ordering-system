@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { useAuth } from "../../../Context/AuthContext";
 import { addToCart } from "../../../api/services/cartApi";
 import api from "../../../api/AxiosApi";
+import { useDispatch } from "react-redux";
+import { increment } from "../../../redux/slices/cartTotalSlice";
 
 interface food {
   id: number;
@@ -21,6 +23,8 @@ interface food {
 const FoodHero = () => {
   const { user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const { id } = useParams();
 
@@ -46,6 +50,7 @@ const FoodHero = () => {
   try {
     await addToCart(product.id, 1);
     toast.success("Added to cart 🛒");
+    dispatch(increment())
   } catch (err: any) {
     toast.error(err?.response?.data?.message || "Failed to add to cart");
   }
@@ -64,6 +69,7 @@ const handleOrderNow = async () => {
       quantity: 1,
     });
 
+    dispatch(increment())
     toast.success("Ready to checkout 🚀");
 
     // 3. redirect to checkout / cart

@@ -26,14 +26,13 @@ const { id } = useParams();
     }
     deliveryTracker()
   }, [])
-    
-
+  
 
   const navigate = useNavigate();
 
   return (
     <>
-    <div className="min-h-[70vh] flex gap-10 flex items-center justify-center px-4">
+    <div className="min-h-[70vh] flex gap-10 items-center justify-center px-4">
     <div className="shadow-2xl flex rounded-2xl p-10">
 
       <div className="bg-white rounded-2xl p-10 max-w-md w-full text-center">

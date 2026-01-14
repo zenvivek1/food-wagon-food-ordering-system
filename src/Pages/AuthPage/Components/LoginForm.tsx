@@ -37,23 +37,30 @@ const LoginForm = () => {
     try {
       const res = await loginUser(payload);
       // console.log(res);
-      if (res) {
+      if (res.data) {
         saveTokens(res.data);
         toast.success("Login Successfully!");
         refreshUser();
+        // setTimeout(()=>{
+          //   window.location.reload()
+          // },1000)
       }
     } catch (error: any) {
       toast.error("Login failed! - " + error.error);
     }
   };
-
+  
   useEffect(() => {
     if (!user) return;
     console.log("User available:", user);
     if (user.role === "admin") {
+      refreshUser();
       navigate("/admin");
+      // window.location.reload()
     } else {
+      refreshUser();
       navigate("/");
+      // window.location.reload()
     }
   }, [user]);
 
@@ -68,7 +75,8 @@ const LoginForm = () => {
             htmlFor="email"
             className="block font-semibold mb-2 text-black"
           >
-            Enter Your Email
+            Email<span className="text-red-500 ml-1">*</span>
+
           </label>
           <input
             id="email"
@@ -77,7 +85,7 @@ const LoginForm = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            placeholder="Email"
+            placeholder="Enter Your Email"
             className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
           />
         </div>
@@ -88,7 +96,8 @@ const LoginForm = () => {
             htmlFor="password"
             className="block font-semibold mb-2 text-black"
           >
-            Enter Your Password
+            Password<span className="text-red-500 ml-1">*</span>
+
           </label>
           <input
             id="password"
@@ -97,7 +106,7 @@ const LoginForm = () => {
             value={formData.password}
             onChange={handleChange}
             required
-            placeholder="Password"
+            placeholder="Enter Your Password"
             className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-400 outline-none"
           />
         </div>
@@ -124,7 +133,7 @@ const LoginForm = () => {
             try {
               const res = await loginWithGoogle();
               saveTokens(res.data);
-              if (res) {
+              if (res.data) {
                 saveTokens(res.data);
                 toast.success("Login Successfull");
                 setTimeout(() => {

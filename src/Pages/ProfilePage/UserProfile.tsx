@@ -1,96 +1,121 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../Context/AuthContext";
+import { MapPin, ShoppingBag, Edit3, User, Mail } from "lucide-react";
+import OrderCard from "./Components/OrderCard";
+import EditProfileModal from "./Components/EditProfile";
+import { getOrders } from "../../api/services/orders/ordersApi";
+import { toast } from "sonner";
+import type { Order } from "../../Interfaces/Orders";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
+  const { user } = useAuth();
+  const [EditProfile, setEditProfile] = useState(false)
+  const [loading, setLoading] = useState(true);
 
-  const { user }  = useAuth();
+    const [orders, setOrders] = useState<Order[]>([]);
+    const navigate = useNavigate()
 
+    const fetchOrders = async () => {
+    try {
+      const data = await getOrders();
+      setOrders(data);
+    } catch {
+      toast.error("Failed to load orders");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+    useEffect(() => {
+      fetchOrders();
+    }, []);
 
   return (
-    <div className="min-h-screen bg-zinc-50 py-10 px-6">
-      {/* Page Container */}
-      <div className="w-full px-20 h-screen mx-auto space-y-10">
-
-        {/* Header */}
-        <h1 className="text-3xl font-bold text-orange-600">
-          Profile
-        </h1>
-
-        {/* Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          {/* Profile Card */}
-          <div className="rounded-xl p-6 flex gap-4 items-center">
-            <div className="w-30 h-30 rounded-full bg-orange-200 flex items-center justify-center text-2xl font-bold text-orange-700">
-              {user?.name[0]}
+    <>
+    <div className="min-h-screen bg-zinc-50 py-12 px-4 md:px-24">
+      <div className="max-w-8xl mx-auto space-y-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
+              <button onClick={()=>setEditProfile(true)} className="absolute top-10 right-10 flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2 rounded-xl text-sm font-bold hover:bg-zinc-100 transition shadow-sm">
+            <Edit3 size={16} /> Edit Profile
+          </button>
+          {/* User Info Card */}
+          <div className="bg-white rounded-3xl max-w-4xl p-8 shadow-sm border border-zinc-100 flex flex-col items-center text-center">
+            <div className="w-32 h-32 rounded-full bg-orange-100 border-4 border-orange-50 flex items-center justify-center text-4xl font-black text-orange-600 mb-6 shadow-inner">
+              {user?.name?.[0] || "U"}
             </div>
-
-            <div>
-              <h2 className="text-2xl font-semibold">
-                {user?.name}
-              </h2>
-              <p className="text-gray-500 text-md">
-                {user?.email}
-              </p>
-              <p className="text-gray-500 text-md">
-                Edit Info
-              </p>
+            <h2 className="text-2xl font-bold text-gray-900">{user?.name}</h2>
+            <div className="flex items-center gap-2 text-zinc-500 mt-2">
+              <Mail size={14} />
+              <span className="text-sm">{user?.email}</span>
+            </div>
+            
+            <div className="mt-8 w-full bg-orange-50 rounded-2xl p-4 flex justify-around text-center">
+              <div>
+                <p className="text-xs text-orange-600 font-bold uppercase tracking-wider">Orders</p>
+                <p
+                title="View All Orders" 
+                onClick={()=>navigate('/orders')}
+                className="text-xl font-black text-orange-700 cursor-pointer">{orders?.length}</p>
+              </div>
+              <div className="border-r border-orange-200" />
+              <div>
+                <p 
+                className="text-xs text-orange-600 font-bold uppercase tracking-wider">Points</p>
+                <p
+                title="50 Points Per Order"
+                 className="text-xl font-black text-orange-700">{orders?.length*50}</p>
+              </div>
             </div>
           </div>
 
           {/* Address Card */}
-          <div className="md:col-span-2 bg-white rounded-xl shadow-md p-6">
-            <h3 className="text-lg font-semibold text-orange-600 mb-2">
-              Delivery Address
-            </h3>
-            <p className="text-gray-700">
-              <span className="font-medium">Deliver To:</span> <br />
-              Stackmentalists Ventures Pvt Ltd <br />
-              Main Road, Pune <br />
-              Maharashtra
-            </p>
-          </div>
-        </div>
-
-        {/* Past Orders */}
-        <div className="bg-white rounded-xl shadow-md p-6">
-          <h3 className="text-xl font-semibold text-orange-600 mb-6">
-            Past Orders
-          </h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 bg-white rounded-3xl p-8 shadow-sm border border-zinc-100">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-3 bg-zinc-100 rounded-2xl text-orange-600">
+                <MapPin size={24} />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-gray-900">Delivery Address</h3>
+                <p className="text-sm text-zinc-500">Your primary shipping location</p>
+              </div>
+            </div>
             
-            {/* Order Card */}
-            <OrderCard />
-            <OrderCard />
-            <OrderCard />
-
+            <div className="p-6 bg-zinc-50 rounded-2xl border border-dashed border-zinc-300">
+              <p className="text-zinc-800 font-medium leading-relaxed">
+                Stackmentalists Ventures Pvt Ltd <br />
+                <span className="text-zinc-500 text-sm">Main Road, Pune, Maharashtra - 411001</span>
+              </p>
+              <button onClick={()=>setEditProfile(true)} className="mt-4 text-orange-600 text-sm font-bold hover:underline">Update Address</button>
+            </div>
           </div>
         </div>
 
+        {/* Past Orders Section */}
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <ShoppingBag className="text-orange-600" />
+            <h3 className="text-2xl font-bold text-gray-900">Past Orders</h3>
+          </div>
+
+
+
+          <div className="flex gap-6 w-[90vw] overflow-x-auto lg:flex-nowrap flex-wrap justify-center lg:justify-start">
+            {
+              orders.map((e)=>{
+                if(e.status==="confirmed"){
+                  return <OrderCard data={e}/>
+                }
+              })
+            }
+          </div>
+        </div>
       </div>
     </div>
+    {EditProfile && <EditProfileModal onClose={()=>setEditProfile(false)} isOpen={EditProfile} userData={user}/>}
+    </>
   );
 };
 
-const OrderCard = () => {
-  return (
-    <div className="border rounded-lg overflow-hidden hover:shadow-lg transition">
-      <img
-        src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092"
-        alt="Food"
-        className="h-40 w-full object-cover"
-      />
-      <div className="p-4">
-        <h4 className="font-semibold">
-          Paneer Butter Masala
-        </h4>
-        <p className="text-sm text-gray-500">
-          ₹240 • Delivered
-        </p>
-      </div>
-    </div>
-  );
-};
 
 export default UserProfile;

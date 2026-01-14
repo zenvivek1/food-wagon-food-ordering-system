@@ -40,7 +40,7 @@ const SectionB = () => {
           desc={"Food is made and delivered directly to your home."}
         />
       </div>
-      <div className="text-3xl font-bold m-16 self-start">Popular Items</div>
+      <div className="text-3xl font-bold m-16 text-center">Popular Items</div>
       <div className="h-1/2 flex justify-center align-center gap-6  flex-wrap">
         <FoodCardB
           name="Paneer Tikka"

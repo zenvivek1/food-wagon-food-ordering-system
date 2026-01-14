@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 const users = [
   {
@@ -34,6 +34,16 @@ const users = [
 ];
 
 const Users = () => {
+
+
+  useEffect(() => {
+
+    
+
+  }, [])
+  
+
+
   return (
     <div className="min-h-screen bg-zinc-50 p-10 px-16">
       {/* HEADER */}

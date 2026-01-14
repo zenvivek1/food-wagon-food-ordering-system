@@ -1,28 +1,27 @@
 import { Menu, ShoppingCart } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
+import { useAppSelector } from "../redux/hooks";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Navbar = ({ setOpenSidebar, setOpenAdminSidebar }: any) => {
   const location = useLocation();
   const path = location.pathname;
-  const { isLoggedIn,user } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const navigate = useNavigate();
 
+  const cartTotalItems = useAppSelector((s) => s.cartTotalItems);
+
   const openSidebarHandler = () => {
-    if(!isLoggedIn){
-      return setOpenSidebar(true) 
-    } 
-    user.role==="admin"
-      ? setOpenAdminSidebar(true)
-      : setOpenSidebar(true);
+    if (!isLoggedIn) {
+      return setOpenSidebar(true);
+    }
+    user.role === "admin" ? setOpenAdminSidebar(true) : setOpenSidebar(true);
   };
 
   return (
     <div className="sticky top-0 z-50 w-full bg-white shadow-sm">
-
       <div className="lg:hidden flex flex-col gap-3 px-4 py-3">
-
-      
         {/* Top Row */}
         <div className="flex items-center justify-between">
           <button onClick={openSidebarHandler}>
@@ -43,7 +42,6 @@ const Navbar = ({ setOpenSidebar, setOpenAdminSidebar }: any) => {
               <i className="ri-user-fill"></i>
             </button>
           )}
-      
         </div>
 
         {/* Search */}
@@ -62,7 +60,6 @@ const Navbar = ({ setOpenSidebar, setOpenAdminSidebar }: any) => {
 
       <div className="hidden lg:flex min-h-[5vh] w-full items-center justify-around py-5">
         <div className="flex items-center justify-between w-full px-12">
-
           <button onClick={openSidebarHandler} className="cursor-pointer">
             <Menu />
           </button>
@@ -107,21 +104,37 @@ const Navbar = ({ setOpenSidebar, setOpenAdminSidebar }: any) => {
           )}
 
           <div className="flex gap-10">
-              {isLoggedIn && (
-            <button title="Your Cart"
-              onClick={() => navigate("/cart")}
-              className="flex items-center gap-1 px-4 py-1 rounded-full
+            {isLoggedIn && user.role==="user" && (
+              <button
+                title="Your Cart"
+                onClick={() => navigate("/cart")}
+                className="flex items-center gap-1 px-4 py-1 rounded-full
               font-semibold text-orange-500 bg-orange-50 shadow cursor-pointer"
-            >
-              <ShoppingCart/>
-            </button>
-          )}
-          <div>
-            <span className="text-xl text-red-500 font-extrabold">food</span>
-            <span className="text-xl text-orange-400 font-extrabold">wagon</span>
+              >
+                  <div className="relative p-1">
+                    <ShoppingCart />
+                    <AnimatePresence>
+                      <motion.p
+                        key={cartTotalItems}
+                        initial={{ scale: 0.6, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.6, opacity: 0 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="absolute bg-primary text-white px-2 border-1 -right-6 top-4 rounded-full"
+                      >
+                        {cartTotalItems || 0}
+                      </motion.p>
+                    </AnimatePresence>
+                  </div>
+              </button>
+            )}
+            <div>
+              <span className="text-xl text-red-500 font-extrabold">food</span>
+              <span className="text-xl text-orange-400 font-extrabold">
+                wagon
+              </span>
+            </div>
           </div>
-          </div>
-
         </div>
       </div>
     </div>

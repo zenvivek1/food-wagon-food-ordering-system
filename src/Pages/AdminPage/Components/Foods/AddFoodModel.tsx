@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { createProduct } from "../../../../api/services/admin/adminApi";
+import { createProduct } from "../../../../api/services/admin/foodApi";
 import { toast } from "sonner";
 
 // Using the interface you provided
