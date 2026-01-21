@@ -5,7 +5,7 @@ const { getAccessToken } = useTokenStorage();
 
 const api = axios.create({
   baseURL:
-    "https://noncommunally-semicontinuous-clementine.ngrok-free.dev/api/v1",
+    "http://44.200.103.249:8000/api/v1",
   headers: {
     "Content-Type": "application/json",
   },
