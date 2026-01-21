@@ -4,14 +4,14 @@ import { useAuth } from "../Context/AuthContext";
 import ScrollIndicator from "./ScrollNow/ScrollIndicator";
 import { randomFoodEmoji } from "./FoodEmoji/randomFoodEmoji";
 import FoodLoader from "../Pages/Loader/FoodLoader";
-import FoodByCategories from "./FoodByCategories";
+
 
 const Hero = () => {
   const [DeliveryOption, setDeliveryOption] = useState("Delivery");
   const { isLoggedIn, user, isAuthReady } = useAuth();
 
-  if(!isAuthReady){
-   return <FoodLoader height="screen" />
+  if (!isAuthReady) {
+    return <FoodLoader height="screen" />
   }
 
   return (
@@ -43,20 +43,18 @@ const Hero = () => {
           <div className="flex p-4 gap-3 justify-center lg:justify-start">
             <button
               onClick={() => setDeliveryOption("Delivery")}
-              className={`py-1 px-6 font-bold ${
-                DeliveryOption === "Delivery" &&
+              className={`py-1 px-6 font-bold ${DeliveryOption === "Delivery" &&
                 "text-orange-600/90 bg-orange-100"
-              } rounded cursor-pointer transition hover:scale-105`}
+                } rounded cursor-pointer transition hover:scale-105`}
             >
               <i className="ri-motorbike-fill mr-2"></i>Delivery
             </button>
 
             <button
               onClick={() => setDeliveryOption("Pickup")}
-              className={`py-1 px-6 font-bold ${
-                DeliveryOption === "Pickup" &&
+              className={`py-1 px-6 font-bold ${DeliveryOption === "Pickup" &&
                 "text-orange-600/90 bg-orange-100"
-              } rounded cursor-pointer transition hover:scale-105`}
+                } rounded cursor-pointer transition hover:scale-105`}
             >
               <i className="ri-briefcase-line mr-2"></i>Pickup
             </button>
@@ -79,7 +77,7 @@ const Hero = () => {
             </div>
 
             <button
-             className="py-4 whitespace-nowrap px-8 bg-secondary rounded-lg text-white font-bold w-full lg:w-auto">
+              className="py-4 whitespace-nowrap px-8 bg-secondary rounded-lg text-white font-bold w-full lg:w-auto">
               <i className="ri-search-line mr-2"></i>
               {DeliveryOption === "Pickup" ? "Search" : "Find Food"}
             </button>

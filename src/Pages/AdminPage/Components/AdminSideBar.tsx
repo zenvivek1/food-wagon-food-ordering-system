@@ -7,7 +7,6 @@ import {
   Settings,
   LogOut,
   X,
-  Home,
   Proportions,
 } from "lucide-react";
 import { useAuth } from "../../../Context/AuthContext";
@@ -25,11 +24,10 @@ const AdminSidebar = ({ open, setOpen }: any) => {
       <div
         onClick={() => setOpen(false)}
         className={`fixed inset-0 bg-black/40 z-40 transition-opacity duration-300
-        ${
-          open
+        ${open
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
-        }`}
+          }`}
       />
 
       {/* Sidebar */}
@@ -100,8 +98,8 @@ const AdminSidebar = ({ open, setOpen }: any) => {
             icon={<Settings size={18} />}
             label="Settings"
             setOpen={setOpen}
-          /> 
-          
+          />
+
         </nav>
 
         {/* Logout */}
@@ -131,10 +129,9 @@ const AdminSidebarLink = ({ to, icon, label, setOpen }: any) => (
     onClick={() => setOpen(false)}
     className={({ isActive }) =>
       `flex items-center gap-3 px-4 py-3 rounded-lg text-lg font-medium transition
-      ${
-        isActive
-          ? "bg-orange-100 text-orange-600"
-          : "text-gray-600 hover:bg-gray-100"
+      ${isActive
+        ? "bg-orange-100 text-orange-600"
+        : "text-gray-600 hover:bg-gray-100"
       }`
     }
   >

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { loginWithGoogle } from "../../../auth/googleAuth";
-import api from "../../../api/AxiosApi";
+
 import { registerUser } from "../../../api/services/AuthService";
 import { toast } from "sonner";
 import useTokenStorage from "../../../api/hooks/setTokenRes";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
 
-const RegisterForm = ({ setIsLogin }: any) => {
+const RegisterForm = (_props: any) => {
   const navigate = useNavigate();
   const { refreshUser } = useAuth();
 
@@ -97,7 +97,7 @@ const RegisterForm = ({ setIsLogin }: any) => {
 
       <form onSubmit={handleSubmit} className="w-full mt-8 space-y-5">
         <label htmlFor="name" className="block font-semibold mb-2 text-blac">
-         Full Name<span className="text-red-500 ml-1">*</span> 
+          Full Name<span className="text-red-500 ml-1">*</span>
         </label>
         <input
           id="name"
@@ -172,7 +172,7 @@ const RegisterForm = ({ setIsLogin }: any) => {
         {/* Google Signup */}
         <button
           type="button"
-             onClick={async () => {
+          onClick={async () => {
             try {
               const res = await loginWithGoogle();
               saveTokens(res.data);
@@ -180,10 +180,10 @@ const RegisterForm = ({ setIsLogin }: any) => {
                 saveTokens(res.data);
                 toast.success("Login Successfull");
                 setTimeout(() => {
-                refreshUser();
-                navigate("/");
-                window.location.reload();
-              }, 1200);
+                  refreshUser();
+                  navigate("/");
+                  window.location.reload();
+                }, 1200);
               } else {
                 toast.error("Login failed");
               }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { deleteProduct, getAllProducts } from "../api/services/foodApi";
 import { toast } from "sonner";
-import { DeleteIcon, Frown, Trash } from "lucide-react";
+import { Frown, Trash } from "lucide-react";
 import { useAuth } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import FoodLoader from "../Pages/Loader/FoodLoader";

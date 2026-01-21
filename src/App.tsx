@@ -7,7 +7,7 @@ import UserProfile from "./Pages/ProfilePage/UserProfile";
 import Navbar from "./Components/Navbar";
 import Sidebar from "./Components/Sidebar";
 import { useState } from "react";
-import AuthProvider from "./api/services/AuthProvider";
+
 import { Toaster } from "sonner";
 import FoodDetails from "./Pages/ViewFoodPage/FoodDetails";
 import AdminPage from "./Pages/AdminPage/AdminPage";
@@ -24,23 +24,23 @@ import OrderSuccess from "./Pages/AdminPage/Components/Orders/OrderSuccess";
 import ViewOrders from "./Pages/Orders/ViewOrders";
 import SellerPage from "../DraftedCode/SellerPage/SellerPage";
 import AddRestaurant from "../DraftedCode/SellerPage/AddRestaurant";
-import SellerSidebar from "../DraftedCode/SellerPage/SellerSidebar";
+
 import TermsToUse from "./Pages/TermsToUse/TermsToUse";
 import FAQsPage from "./Pages/TermsToUse/FAQs";
 import { useAuth } from "./Context/AuthContext";
 import FoodLoader from "./Pages/Loader/FoodLoader";
-import FoodByCategories from "./Components/FoodByCategories";
+
 
 const App = () => {
   const [OpenSidebar, setOpenSidebar] = useState(false);
   const [OpenAdminSidebar, setOpenAdminSidebar] = useState(false);
 
-  const { isLoading, isAuthReady } = useAuth();
+  const { isAuthReady } = useAuth();
 
   return (
     <>
       <Toaster position="bottom-right" richColors closeButton duration={3000} />
-      {!isAuthReady? (
+      {!isAuthReady ? (
         <FoodLoader height="screen" />
       ) : (
         <>

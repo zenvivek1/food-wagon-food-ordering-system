@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { fetchAllCategories } from '../redux/slices/foodCatergories';
 import FoodLoader from '../Pages/Loader/FoodLoader';
@@ -55,7 +55,7 @@ const FoodByCategories = () => {
       }
     }
   };
-  
+
   // Debug log to see persistent updates
   console.log("Rendered allCategories:", allCategories);
 
@@ -71,7 +71,7 @@ const FoodByCategories = () => {
 
         <div className="relative mt-8 group/carousel">
           {/* Left Button */}
-          <button 
+          <button
             onClick={() => scroll('left')}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 z-10 bg-white p-2 rounded-full shadow-lg hover:bg-gray-100 transition-all opacity-0 group-hover/carousel:opacity-100"
           >
@@ -79,14 +79,14 @@ const FoodByCategories = () => {
           </button>
 
           {/* Right Button */}
-          <button 
+          <button
             onClick={() => scroll('right')}
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 z-10 bg-white p-2 rounded-full shadow-lg hover:bg-gray-100 transition-all opacity-0 group-hover/carousel:opacity-100"
           >
             <ChevronRight className="w-6 h-6 text-gray-700" />
           </button>
 
-          <div 
+          <div
             ref={scrollRef}
             className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar pb-4 px-2"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
@@ -95,14 +95,14 @@ const FoodByCategories = () => {
               allCategories.map((cat) => (
                 <div
                   key={cat.name}
-                  onClick={()=>{navigate(`/category/${cat.name}`); }}
+                  onClick={() => { navigate(`/category/${cat.name}`); }}
                   className="flex-shrink-0 w-64 h-80 relative rounded-2xl overflow-hidden group cursor-pointer transition-all hover:shadow-xl"
                 >
                   {/* background image */}
                   <img
                     src={
-                      cat.image || 
-                      categories.find((c) => c.name.toLowerCase() === cat.name.toLowerCase())?.image || 
+                      cat.image ||
+                      categories.find((c) => c.name.toLowerCase() === cat.name.toLowerCase())?.image ||
                       'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
                     }
                     alt={cat.name}
@@ -125,7 +125,7 @@ const FoodByCategories = () => {
               ))
             ) : (
               <div className="w-full h-64 flex items-center justify-center">
-                 <FoodLoader/>
+                <FoodLoader />
               </div>
             )}
           </div>

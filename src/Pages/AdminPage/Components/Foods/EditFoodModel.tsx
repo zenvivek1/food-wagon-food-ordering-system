@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { createProduct, updateFood } from "../../../../api/services/admin/foodApi";
+import { updateFood } from "../../../../api/services/admin/foodApi";
 import { toast } from "sonner";
 import { FOOD_CATEGORY_OPTIONS } from "../../../../options/options";
 
@@ -17,11 +17,11 @@ interface createPayload {
 
 const EditFoodModel = ({ open, onClose, item }: any) => {
 
-    console.log("dklksslkdsldksdkskdslkdkskdlskdsldlkldsksldksldkdslk")
+  console.log("dklksslkdsldksdkskdslkdkskdlskdsldlkldsksldksldkdslk")
   const [formData, setFormData] = useState<createPayload>({
     name: "",
     price: "",
-    category_id: "", 
+    category_id: "",
     restaurant_id: 1,
     description: "",
     image_url: "",
@@ -95,7 +95,7 @@ const EditFoodModel = ({ open, onClose, item }: any) => {
 
     try {
       // Here you might have an update API instead of create
-      const data = await updateFood(finalData,item.id);
+      const data = await updateFood(finalData, item.id);
       if (data) {
         toast.success("Product updated successfully!");
         onClose();

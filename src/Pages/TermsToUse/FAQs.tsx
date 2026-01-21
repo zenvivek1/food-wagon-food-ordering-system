@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import HowSteps from "../../Components/Cards/HowSteps";
-import SectionC from "../../Components/SectionC";
+
 import Footer from "../../Components/Footer";
 
 const faqs = [
@@ -49,7 +49,7 @@ export default function FAQsPage() {
 
   return (
     <div className="bg-white min-h-screen px-6 py-10 bg-linear-to-b from-orange-300/30 via-white to-white">
-              <div className="font-bold text-primary text-4xl text-center">
+      <div className="font-bold text-primary text-4xl text-center">
         How does it work??
       </div>
       <div className="flex mt-10 flex-wrap">
@@ -84,7 +84,7 @@ export default function FAQsPage() {
           desc={"Food is made and delivered directly to your home."}
         />
       </div>
-      
+
       {/* Heading */}
       <div className="mb-16 text-center mt-10">
         <h1 className="text-3xl font-bold text-primary">
@@ -96,7 +96,7 @@ export default function FAQsPage() {
       <div className="space-y-10 max-w-7xl mx-auto">
         {faqs.map((section, sectionIdx) => (
           <div key={sectionIdx}>
-            
+
             <h2 className="text-xl font-semibold text-gray-800 mb-4 border-l-4 border-primary pl-3">
               {section.category}
             </h2>
@@ -118,9 +118,8 @@ export default function FAQsPage() {
                         {faq.q}
                       </span>
                       <ChevronDown
-                        className={`h-5 w-5 text-primary transition-transform ${
-                          isOpen ? "rotate-180" : ""
-                        }`}
+                        className={`h-5 w-5 text-primary transition-transform ${isOpen ? "rotate-180" : ""
+                          }`}
                       />
                     </button>
 
@@ -132,12 +131,12 @@ export default function FAQsPage() {
                   </div>
                 );
               })}
-              
+
             </div>
           </div>
         ))}
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

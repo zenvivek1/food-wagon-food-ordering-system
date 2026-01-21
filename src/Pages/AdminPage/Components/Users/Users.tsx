@@ -1,7 +1,5 @@
 "use client";
 
-import React, { useEffect } from "react";
-
 const users = [
   {
     id: 1,
@@ -35,13 +33,6 @@ const users = [
 
 const Users = () => {
 
-
-  useEffect(() => {
-
-    
-
-  }, [])
-  
 
 
   return (

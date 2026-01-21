@@ -21,7 +21,7 @@ interface food {
 }
 
 const FoodHero = () => {
-  const { user, isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -45,41 +45,41 @@ const FoodHero = () => {
   }, []);
 
   const handleAddToCart = async () => {
-  if (!product) return;
+    if (!product) return;
 
-  try {
-    await addToCart(product.id, 1);
-    toast.success("Added to cart 🛒");
-    dispatch(increment())
-  } catch (err: any) {
-    toast.error(err?.response?.data?.message || "Failed to add to cart");
-  }
-};
+    try {
+      await addToCart(product.id, 1);
+      toast.success("Added to cart 🛒");
+      dispatch(increment())
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || "Failed to add to cart");
+    }
+  };
 
-const handleOrderNow = async () => {
-  if (!product) return;
+  const handleOrderNow = async () => {
+    if (!product) return;
 
-  try {
-    // 1. clear cart
-    await api.delete("/cart/");
+    try {
+      // 1. clear cart
+      await api.delete("/cart/");
 
-    // 2. add current product
-    await api.post("/cart/items", {
-      product_id: product.id,
-      quantity: 1,
-    });
+      // 2. add current product
+      await api.post("/cart/items", {
+        product_id: product.id,
+        quantity: 1,
+      });
 
-    dispatch(increment())
-    toast.success("Ready to checkout 🚀");
+      dispatch(increment())
+      toast.success("Ready to checkout 🚀");
 
-    // 3. redirect to checkout / cart
-    navigate("/cart");
-  } catch (err: any) {
-    toast.error(
-      err?.response?.data?.message || "Something went wrong"
-    );
-  }
-};
+      // 3. redirect to checkout / cart
+      navigate("/cart");
+    } catch (err: any) {
+      toast.error(
+        err?.response?.data?.message || "Something went wrong"
+      );
+    }
+  };
 
 
 
@@ -123,15 +123,15 @@ const handleOrderNow = async () => {
           <div className="flex gap-4 pt-4">
             {isLoggedIn ? (
               <>
-                <button 
-                onClick={handleOrderNow}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-xl font-semibold transition">
+                <button
+                  onClick={handleOrderNow}
+                  className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-xl font-semibold transition">
                   Order Now
                 </button>
 
                 <button
-                onClick={handleAddToCart}
-                 className="border border-orange-500 text-orange-500 hover:bg-orange-50 px-8 py-3 rounded-xl font-semibold transition">
+                  onClick={handleAddToCart}
+                  className="border border-orange-500 text-orange-500 hover:bg-orange-50 px-8 py-3 rounded-xl font-semibold transition">
                   Add to Cart
                 </button>
               </>

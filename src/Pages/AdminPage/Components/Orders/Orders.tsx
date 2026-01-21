@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 const Orders = () => {
   return (
     <div className="min-h-screen bg-zinc-50 p-10 px-16">

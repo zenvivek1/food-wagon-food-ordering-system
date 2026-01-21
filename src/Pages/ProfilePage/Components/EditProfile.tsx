@@ -67,7 +67,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
     }
 
     try {
-      const res = await UpdateUserProfile(ProfileData, AddressData);
+      await UpdateUserProfile(ProfileData, AddressData);
       toast.success("Profile updated successfully!");
       onClose();
     } catch (err) {
@@ -221,8 +221,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   >
                     <option value="">Select State</option>
 
-                    {STATE_OPTIONS.map((state) => 
-                        <option key={state} value={state}>
+                    {STATE_OPTIONS.map((state) =>
+                      <option key={state} value={state}>
                         {state}
                       </option>
                     )}

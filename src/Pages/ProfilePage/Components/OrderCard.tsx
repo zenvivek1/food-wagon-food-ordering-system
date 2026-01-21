@@ -1,22 +1,22 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-const normalizeOrder = (data) => ({
+const normalizeOrder = (data: any) => ({
   ...data,
   items: Array.isArray(data?.items) ? data.items : [],
 });
 
-const OrderCard = ({ data }) => {
+const OrderCard = ({ data }: { data: any }) => {
 
   const order = normalizeOrder(data);
   const item = order.items[0];
   const date = order?.updated_at
-              ? new Date(data.updated_at).toLocaleDateString("en-IN", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })
-              : "";
+    ? new Date(data.updated_at).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    })
+    : "";
 
   // console.log(order)
 
@@ -39,7 +39,7 @@ const OrderCard = ({ data }) => {
       </div>
       <div className="p-5">
         <h4 className="font-bold text-gray-900 text-lg">
-            {item?.product_name || ""}
+          {item?.product_name || ""}
         </h4>
         <div className="flex justify-between items-center mt-2">
           <p className="text-orange-600 font-black text-lg">

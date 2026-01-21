@@ -1,4 +1,4 @@
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   Home,
   User,
@@ -22,7 +22,7 @@ import { toast } from "sonner";
 const Sidebar = ({ open, setOpen }: any) => {
 
   const { clearTokens } = useTokenStorage();
-  const { user, isLoggedIn, loading,refreshUser } = useAuth();
+  const { user, isLoggedIn, refreshUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -39,11 +39,10 @@ const Sidebar = ({ open, setOpen }: any) => {
       <div
         onClick={() => setOpen(false)}
         className={`fixed inset-0 bg-black/40 z-200 transition-opacity duration-300
-        ${
-          open
+        ${open
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
-        }`}
+          }`}
       />
       <aside
         className={`fixed z-200 top-0 left-0 h-full w-74 lg:w-84 bg-white
@@ -178,10 +177,9 @@ const SidebarLink = ({ to, icon, label, setOpen }: any) => (
     onClick={() => setOpen(false)}
     className={({ isActive }) =>
       `flex items-center gap-3 px-4 py-2 rounded-lg text-lg font-medium transition
-      ${
-        isActive
-          ? "bg-orange-100 text-orange-600"
-          : "text-gray-600 hover:bg-gray-100"
+      ${isActive
+        ? "bg-orange-100 text-orange-600"
+        : "text-gray-600 hover:bg-gray-100"
       }`
     }
   >

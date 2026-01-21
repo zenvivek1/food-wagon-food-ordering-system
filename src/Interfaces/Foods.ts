@@ -1,7 +1,7 @@
 export interface createFoodPayload {
   name: string;
   price: number;
-  category_name: string;
+  category_id: string;
   restaurant_id: number;
   description: string;
   image_url: string;

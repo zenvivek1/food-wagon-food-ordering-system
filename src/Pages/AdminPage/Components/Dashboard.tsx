@@ -15,16 +15,16 @@ const Dashboard = () => {
 
   const [BulkData, setBulkData] = useState('')
 
-  
-  const handleBulkSubmit = async ()=>{
+
+  const handleBulkSubmit = async () => {
     if (!BulkData.trim()) {
       toast.error("Bulk data cannot be empty");
       return;
     }
     const parsedData = JSON.parse(BulkData);
-    try{
-      const res = await BulkFoodUpload(parsedData );
-    }catch(err){
+    try {
+      await BulkFoodUpload(parsedData);
+    } catch (err) {
       toast.error("Something Went Wrong In Bulk Uploading")
     }
   }
@@ -43,8 +43,8 @@ const Dashboard = () => {
           <div className="w-full bg-white shadow-md mb-2 rounded-xl py-4 px-6">
             <h2 className="text-black font-semibold font-md mb-2">Add Bulk Data</h2>
             <select
-            // value={}
-             className="w-full border rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400">
+              // value={}
+              className="w-full border rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400">
               {BULK_DATA_OPTIONS.map((e) => {
                 return <option value={e}>{e}</option>;
               })}
@@ -55,13 +55,13 @@ const Dashboard = () => {
               id="bulkData"
               rows={8}
               value={BulkData}
-              onChange={e=>setBulkData(e.target.value)}
+              onChange={e => setBulkData(e.target.value)}
               placeholder="Paste your bulk data in JSON format here. (Always Array[])"
               className=" mt-4 w-full border rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
             ></textarea>
             <button
-            onClick={handleBulkSubmit}
-                            className="px-6 py-3 mt-2 font-semibold text-sm rounded-lg bg-primary hover:bg-orange-500 text-white transition"
+              onClick={handleBulkSubmit}
+              className="px-6 py-3 mt-2 font-semibold text-sm rounded-lg bg-primary hover:bg-orange-500 text-white transition"
 
             >Submit</button>
           </div>
