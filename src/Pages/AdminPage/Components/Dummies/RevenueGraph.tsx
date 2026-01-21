@@ -1,6 +1,6 @@
 const RevenueGraph = () => {
   return (
-    <div className="bg-white rounded-xl shadow p-6 max-w-xl mb-10">
+    <div className="bg-white rounded-xl shadow p-6 max-w-xl mb-2">
       <div className="mb-4">
         <h2 className="text-lg font-semibold text-gray-800">
           Revenue Overview

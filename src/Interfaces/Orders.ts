@@ -2,7 +2,7 @@ interface OrderItem {
   product_name: string;
   quantity: number;
   price_at_time: number;
-  product_image?: string;
+  image_urls?: string[];
 }
 
 export interface Order {

@@ -12,6 +12,7 @@ import {
   User2Icon,
   ClipboardEditIcon,
   HelpCircle,
+  Salad,
 } from "lucide-react";
 import useTokenStorage from "../api/hooks/setTokenRes";
 import { useAuth } from "../Context/AuthContext";
@@ -87,6 +88,12 @@ const Sidebar = ({ open, setOpen }: any) => {
             to="/"
             icon={<Home size={18} />}
             label="Home"
+            setOpen={setOpen}
+          />
+          <SidebarLink
+            to="/food-by-categories"
+            icon={<Salad size={18} />}
+            label="Food By Categories"
             setOpen={setOpen}
           />
 

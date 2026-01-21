@@ -88,7 +88,7 @@ return (
             className="bg-white rounded-3xl p-8
                        shadow-[0_20px_50px_rgba(0,0,0,0.08)]"
           >
-            {/* ORDER HEADER */}
+            {/* ORDER HEADER */}  
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
               <div>
                 <p className="text-sm text-gray-500">

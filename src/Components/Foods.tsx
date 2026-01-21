@@ -4,7 +4,10 @@ import FoodCard from './Cards/FoodCard'
 const Foods = () => {
   return (
     <div className='min-h-[50vh] bg-linear-to-b from-zinc-50 to-white w-full pt-10'>
-      <div className="text-3xl font-bold mb-10 text-center">Deals</div>
+      <div className="text-3xl font-bold text-center">Deals</div>
+      <p className="text-gray-500 mt-1 text-center mb-4">
+          Find out our premium foods, that are sure to make your taste buds dance!
+      </p>
       <div className='flex items-center justify-center gap-6 flex-wrap p-6'>
       <FoodCard discount={10} name={"Paneer Tikka"} daysRemaining={5} image={"https://c.ndtvimg.com/2024-07/rvdidqqo_paneer-tikka_120x90_01_July_24.jpg"} />
       <FoodCard discount={20} name={"Chole Bhatore"} daysRemaining={3} image={"https://img-cdn.publive.online/fit-in/640x430/filters:format(webp)/sanjeev-kapoor/media/media_files/rBzJ9k7ieB1Fg63jdm2C.JPG"}/>

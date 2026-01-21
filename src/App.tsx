@@ -29,6 +29,7 @@ import TermsToUse from "./Pages/TermsToUse/TermsToUse";
 import FAQsPage from "./Pages/TermsToUse/FAQs";
 import { useAuth } from "./Context/AuthContext";
 import FoodLoader from "./Pages/Loader/FoodLoader";
+import FoodByCategories from "./Components/FoodByCategories";
 
 const App = () => {
   const [OpenSidebar, setOpenSidebar] = useState(false);
@@ -61,6 +62,8 @@ const App = () => {
             <Route path="/orders" element={<ViewOrders />} />
             <Route path="/termstouse" element={<TermsToUse />} />
             <Route path="/faqs" element={<FAQsPage />} />
+            {/* <Route path="food-by-categories" element={<FoodByCategories/>} /> */}
+            {/* <Route path="category/:name" element={<CatergoryFood/>} /> */}
           </Routes>
 
           <Routes>

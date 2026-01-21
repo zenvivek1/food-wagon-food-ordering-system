@@ -4,6 +4,7 @@ import { useAuth } from "../Context/AuthContext";
 import ScrollIndicator from "./ScrollNow/ScrollIndicator";
 import { randomFoodEmoji } from "./FoodEmoji/randomFoodEmoji";
 import FoodLoader from "../Pages/Loader/FoodLoader";
+import FoodByCategories from "./FoodByCategories";
 
 const Hero = () => {
   const [DeliveryOption, setDeliveryOption] = useState("Delivery");

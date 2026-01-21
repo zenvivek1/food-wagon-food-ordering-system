@@ -5,10 +5,29 @@ import AddFoodModal from "./Foods/AddFoodModel";
 import { useNavigate } from "react-router-dom";
 import RevenueGraph from "./Dummies/RevenueGraph";
 import PlatformStatus from "./Dummies/PlatformStatus ";
+import { BULK_DATA_OPTIONS } from "../../../options/options";
+import { BulkFoodUpload } from "../../../api/services/admin/BulkUploadApi";
+import { toast } from "sonner";
 
 const Dashboard = () => {
   const [openFood, setOpenFood] = useState(false);
   const navigate = useNavigate();
+
+  const [BulkData, setBulkData] = useState('')
+
+  
+  const handleBulkSubmit = async ()=>{
+    if (!BulkData.trim()) {
+      toast.error("Bulk data cannot be empty");
+      return;
+    }
+    const parsedData = JSON.parse(BulkData);
+    try{
+      const res = await BulkFoodUpload(parsedData );
+    }catch(err){
+      toast.error("Something Went Wrong In Bulk Uploading")
+    }
+  }
 
   return (
     <>
@@ -19,8 +38,34 @@ const Dashboard = () => {
         <p className="text-sm text-gray-500 mb-6">
           Admin Dashboard, View & Edit platform administratives.
         </p>
+        <div className="w-full py-10 flex gap-10 flex-col sm:flex-row">
+          <RevenueGraph />
+          <div className="w-full bg-white shadow-md mb-2 rounded-xl py-4 px-6">
+            <h2 className="text-black font-semibold font-md mb-2">Add Bulk Data</h2>
+            <select
+            // value={}
+             className="w-full border rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400">
+              {BULK_DATA_OPTIONS.map((e) => {
+                return <option value={e}>{e}</option>;
+              })}
+            </select>
 
-        <RevenueGraph />
+            <textarea
+              name="bulkData"
+              id="bulkData"
+              rows={8}
+              value={BulkData}
+              onChange={e=>setBulkData(e.target.value)}
+              placeholder="Paste your bulk data in JSON format here. (Always Array[])"
+              className=" mt-4 w-full border rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            ></textarea>
+            <button
+            onClick={handleBulkSubmit}
+                            className="px-6 py-3 mt-2 font-semibold text-sm rounded-lg bg-primary hover:bg-orange-500 text-white transition"
+
+            >Submit</button>
+          </div>
+        </div>
 
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-6">
           <div className="flex flex-wrap gap-3">

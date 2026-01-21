@@ -6,6 +6,7 @@ import SectionC from './Components/SectionC'
 import Products from './Components/Products'
 import { useAuth } from './Context/AuthContext'
 import FoodLoader from './Pages/Loader/FoodLoader'
+import FoodByCategories from './Components/FoodByCategories'
 
 
 const HomePage = () => {
@@ -20,7 +21,8 @@ const HomePage = () => {
     <>
       {/* <Navbar/> */}
       <Hero/>
-      <Products bg='zinc'/>
+      <Products/>
+      <FoodByCategories/>
       <Foods/>
       <SectionB/>
       <SectionC/>

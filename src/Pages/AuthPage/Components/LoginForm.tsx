@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { loginUser } from "../../../api/services/AuthService";
 import { loginWithGoogle } from "../../../auth/googleAuth";
 import useTokenStorage from "../../../api/hooks/setTokenRes";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
+import { loginUser } from "../../../api/services/AuthService";
 
 const LoginForm = () => {
   const { refreshUser, user } = useAuth();

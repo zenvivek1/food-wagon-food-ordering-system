@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { createProduct } from "../../../../api/services/admin/foodApi";
+import React, { useState, useEffect } from "react";
+import { createProduct, updateFood } from "../../../../api/services/admin/foodApi";
 import { toast } from "sonner";
 import { FOOD_CATEGORY_OPTIONS } from "../../../../options/options";
 
@@ -15,23 +15,38 @@ interface createPayload {
   is_available: boolean;
 }
 
-const AddFoodModal = ({ open, onClose }: any) => {
-  // 1. Initialize State
+const EditFoodModel = ({ open, onClose, item }: any) => {
+
+    console.log("dklksslkdsldksdkskdslkdkskdlskdsldlkldsksldksldkdslk")
   const [formData, setFormData] = useState<createPayload>({
     name: "",
     price: "",
-    category_id: "", // Default or dynamic ID
-    restaurant_id: 1, // Default or dynamic ID
+    category_id: "", 
+    restaurant_id: 1,
     description: "",
     image_url: "",
     is_available: true,
   });
 
+  // Fill the form with item data when modal opens
+  useEffect(() => {
+    if (item) {
+      setFormData({
+        name: item.name || "",
+        price: item.price || "",
+        category_id: item.category_id || "",
+        restaurant_id: item.restaurant_id || 1,
+        description: item.description || "",
+        image_url: item.image_url || "",
+        is_available: item.is_available ?? true,
+      });
+    }
+  }, [item]);
+
   if (!open) return null;
 
-  // 2. Generic Change Handler
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -45,35 +60,28 @@ const AddFoodModal = ({ open, onClose }: any) => {
       toast.warning("Food name is required");
       return false;
     }
-
     if (!formData.price || Number(formData.price) <= 0) {
       toast.warning("Price must be greater than 0");
       return false;
     }
-
-    if (formData.category_id === "Select Category") {
+    if (!formData.category_id || formData.category_id === "Select Category") {
       toast.warning("Category is required");
       return false;
     }
-
     if (!formData.description.trim()) {
       toast.warning("Description is required");
       return false;
     }
-
     if (!formData.image_url.trim()) {
       toast.warning("Image URL is required");
       return false;
     }
-
-    // URL validation
     try {
       new URL(formData.image_url);
     } catch {
       toast.error("Invalid image URL");
       return false;
     }
-
     return true;
   };
 
@@ -86,13 +94,14 @@ const AddFoodModal = ({ open, onClose }: any) => {
     };
 
     try {
-      const data = await createProduct(finalData);
+      // Here you might have an update API instead of create
+      const data = await updateFood(finalData,item.id);
       if (data) {
-        toast.success("Product created successfully!");
+        toast.success("Product updated successfully!");
         onClose();
       }
     } catch (error: any) {
-      toast.error("Failed to create product");
+      toast.error("Failed to update product");
     }
   };
 
@@ -102,9 +111,7 @@ const AddFoodModal = ({ open, onClose }: any) => {
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-6"
     >
       <div
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
+        onClick={(e) => e.stopPropagation()}
         className="bg-white w-full max-w-6xl rounded-3xl overflow-hidden shadow-2xl"
       >
         <div className="flex min-h-[520px]">
@@ -123,10 +130,10 @@ const AddFoodModal = ({ open, onClose }: any) => {
           {/* RIGHT FORM SECTION */}
           <div className="w-full lg:w-3/5 p-10 overflow-y-auto max-h-[90vh]">
             <h2 className="text-3xl font-semibold text-gray-900">
-              Add New Food
+              Edit Food Item
             </h2>
             <p className="text-gray-500 mt-1 mb-8">
-              Fill in the details to list a new food item.
+              Update the details of the food item below.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -160,22 +167,23 @@ const AddFoodModal = ({ open, onClose }: any) => {
                 />
               </div>
 
-              {/* Category ID (Mocked as input for binding) */}
+              {/* Category */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Category ID
+                  Category
                 </label>
-                {/* <input
-                  type="number"
+                <select
                   name="category_id"
                   value={formData.category_id}
                   onChange={handleChange}
-                  className="w-full border rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
-                /> */}
-                <select className="w-full border rounded-xl px-2 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400">
-                  {FOOD_CATEGORY_OPTIONS.map((e) => {
-                    return <option id={e}>{e}</option>;
-                  })}
+                  className="w-full border rounded-xl px-2 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                >
+                  <option>Select Category</option>
+                  {FOOD_CATEGORY_OPTIONS.map((e) => (
+                    <option key={e} value={e}>
+                      {e}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -193,6 +201,8 @@ const AddFoodModal = ({ open, onClose }: any) => {
                   className="w-full border rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                 />
               </div>
+
+              {/* Description */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Description
@@ -206,9 +216,11 @@ const AddFoodModal = ({ open, onClose }: any) => {
                   className="w-full border rounded-xl px-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                 />
               </div>
+
+              {/* Restaurant ID */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Restaurat ID
+                  Restaurant ID
                 </label>
                 <input
                   type="number"
@@ -232,7 +244,7 @@ const AddFoodModal = ({ open, onClose }: any) => {
                 onClick={handleSubmit}
                 className="px-8 py-3 text-sm rounded-xl bg-orange-500 hover:bg-orange-600 text-white transition"
               >
-                Add Food
+                Update Food
               </button>
             </div>
           </div>
@@ -242,4 +254,4 @@ const AddFoodModal = ({ open, onClose }: any) => {
   );
 };
 
-export default AddFoodModal;
+export default EditFoodModel;

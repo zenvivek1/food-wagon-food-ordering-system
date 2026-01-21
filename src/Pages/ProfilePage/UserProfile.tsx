@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../Context/AuthContext";
-import { MapPin, ShoppingBag, Edit3, User, Mail } from "lucide-react";
+import { MapPin, ShoppingBag, Edit3, User, Mail, PackageCheck } from "lucide-react";
 import OrderCard from "./Components/OrderCard";
 import EditProfileModal from "./Components/EditProfile";
 import { getOrders } from "../../api/services/orders/ordersApi";
@@ -102,11 +102,24 @@ const UserProfile = () => {
 
           <div className="flex gap-6 w-[90vw] overflow-x-auto lg:flex-nowrap flex-wrap justify-center lg:justify-start">
             {
-              orders.map((e)=>{
-                if(e.status==="confirmed"){
-                  return <OrderCard data={e}/>
-                }
-              })
+               orders.length === 0 ? (
+                <div className="text-center mt-32 w-full flex justify-center flex-col">
+                  <PackageCheck className="mx-auto mb-4 text-gray-400" size={60} />
+                  <h2 className="text-2xl font-semibold">
+                    No orders yet
+                  </h2>
+                  <p className="text-gray-500 mt-2">
+                    Your orders will appear here once you place them
+                  </p>
+                </div>
+              ) : (
+                orders.map((e)=>{
+                  if(e.status==="confirmed"){
+                    return <OrderCard data={e}/>
+                  }
+                })
+              )
+
             }
           </div>
         </div>
